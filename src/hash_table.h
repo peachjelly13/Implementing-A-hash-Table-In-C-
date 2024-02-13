@@ -12,7 +12,7 @@ typedef struct{
 typedef struct{
     int size;
     int count;
-    hash_table_item** item; //represents an array of pointers
+    hash_table_item** items; //represents an array of pointers
 }hash_table;
 
 
