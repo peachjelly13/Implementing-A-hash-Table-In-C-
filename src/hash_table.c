@@ -32,7 +32,7 @@ static void hash_table_delete_item(hash_table_item* element){
 
 }
 
-void hash_table_delete_instance(hash_table* new_){
+void hash_table_delete(hash_table* new_){
     for(int start = 0;start<new_->size;start++){
         hash_table_item* item = new_->items[start];
         if(item!=NULL){
