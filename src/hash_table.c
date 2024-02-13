@@ -16,11 +16,11 @@ static hash_table_item* hash_table_newItem(const char* key_, const char* value_)
 
 //Creating new hash table instance and initializing it with certain properties.
 hash_table* hash_table_new(){
-    hash_table* new = malloc(sizeof(hash_table));
-    new->size = 53; //this value defines how many items can it store
-    new->count = 0; //how full it is
-    new->item = calloc((size_t)new->size,sizeof(hash_table*));
-    return new;
+    hash_table* new_ = malloc(sizeof(hash_table));
+    new_->size = 53; //this value defines how many items can it store
+    new_->count = 0; //how full it is
+    new_->items = calloc((size_t)new_->size,sizeof(hash_table*));
+    return new_;
     
 }
 
@@ -30,6 +30,16 @@ static void hash_table_delete_item(hash_table_item* element){
     free(element->value);
     free(element);
 
+}
 
+void hash_table_delete_instance(hash_table* new_){
+    for(int start = 0;start<new_->size;start++){
+        hash_table_item* item = new_->items[start];
+        if(item!=NULL){
+            hash_table_delete_item(item);
+        }
+    }
+    free(new_->items);
+    free(new_);
 
 }
