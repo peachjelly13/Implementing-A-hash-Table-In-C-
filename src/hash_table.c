@@ -23,3 +23,13 @@ hash_table* hash_table_new(){
     return new;
     
 }
+
+//functions for deleting so that we free the memory an do not cause memory leaks
+static void hash_table_delete_item(hash_table_item* element){
+    free(element->key);
+    free(element->value);
+    free(element);
+
+
+
+}
