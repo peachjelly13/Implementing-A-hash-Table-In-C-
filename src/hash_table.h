@@ -13,7 +13,7 @@ typedef struct{
     int size;
     int count;
     hash_table_item** item; //represents an array of pointers
-}hash_table_design;
+}hash_table;
 
 
 

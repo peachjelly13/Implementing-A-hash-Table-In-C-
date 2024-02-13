@@ -12,5 +12,14 @@ static hash_table_item* hash_table_newItem(const char* key_, const char* value_)
     element->key = strdup(key_);
     element->value = strdup(value_);
     return element;
+}
 
+//Creating new hash table instance and initializing it with certain properties.
+hash_table* hash_table_new(){
+    hash_table* new = malloc(sizeof(hash_table));
+    new->size = 53; //this value defines how many items can it store
+    new->count = 0; //how full it is
+    new->item = calloc((size_t)new->size,sizeof(hash_table*));
+    return new;
+    
 }
