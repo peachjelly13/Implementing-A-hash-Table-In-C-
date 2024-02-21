@@ -43,3 +43,15 @@ void hash_table_delete(hash_table* new_){
     free(new_);
 
 }
+
+static int hash_table_hash(const char *string_, const int prime_number, const int modulus_value){
+    long hash = 0;
+    const int len_string = len(string_);
+    for(int i =0;i<len_string;i++){
+        hash+= (long) pow(prime_number,len_string-(i+1))*string_[i];
+        hash = hash %modulus_value;
+
+    }
+    return hash;
+}
+
