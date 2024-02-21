@@ -55,3 +55,8 @@ static int hash_table_hash(const char *string_, const int prime_number, const in
     return hash;
 }
 
+static int hash_table_get_hash(const char* string_,const int modulus_value , const int no_of_attempts){
+    const int hash_a = hash_table_hash(string_,151,modulus_value);
+    const int hash_b = hash_table_hash(string_,191,modulus_value);
+    return (hash_a+(no_of_attempts*(hash_b+1)))%modulus_value;
+}
