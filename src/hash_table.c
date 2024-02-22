@@ -1,8 +1,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hash_table.h"
-
+#include"prime.h"
+#include"prime.c"
+HASH_TABLE_INITIAL_BASE_SIZE = 53;
+    
 static hash_table_item* hash_table_deleted_item = {NULL,NULL};
+
 
 //creating a function hash_table_newItem and this function returns a pointer to hash_table_item
 static hash_table_item* hash_table_newItem(const char* key_, const char* value_){
@@ -16,13 +20,21 @@ static hash_table_item* hash_table_newItem(const char* key_, const char* value_)
     return element;
 }
 
+
+
+hash_table* hash_table_different_sized(const int variable_size){
+    hash_table* new_ = xmalloc(sizeof(hash_table));
+    new_->variable_size = variable_size;
+    new_->size = next_prime(new_->variable_size); ////this value defines how many items can it store
+    new_->count = 0;//how full it is 
+    new_->items = xcalloc((size_t)new_->size,sizeof(hash_table*));;
+    return new_;
+}
+
 //Creating new hash table instance and initializing it with certain properties.
 hash_table* hash_table_new(){
-    hash_table* new_ = malloc(sizeof(hash_table));
-    new_->size = 53; //this value defines how many items can it store
-    new_->count = 0; //how full it is
-    new_->items = calloc((size_t)new_->size,sizeof(hash_table*));
-    return new_;
+    hash_table_different_sized(HASH_TABLE_INITIAL_BASE_SIZE);
+    
     
 }
 
