@@ -61,6 +61,7 @@ static int hash_table_get_hash(const char* string_,const int modulus_value , con
     return (hash_a+(no_of_attempts*(hash_b+1)))%modulus_value;
 }
 
+//for inserting value in the hash_table
 void hash_table_insert(hash_table *ht,const char * key,const char* value){
     hash_table_item* item = hash_table_newItem(key,value);
     int index = hash_table_hash(item->key,0,ht->size);
@@ -74,5 +75,23 @@ void hash_table_insert(hash_table *ht,const char * key,const char* value){
     ht->items[index]= item;
     ht->count++;
 
+
+}
+
+//for searching a particular value in the hash table
+//searching a value by its key
+char hash_table_search(hash_table *ht, const char* key){
+    int index = hash_table_get_hash(key,0,ht->size);
+    hash_table_item* item = ht->items[index];
+    int i;
+    while(item!=NULL){
+        if(strcmp(item->key,key)){
+            return item->value;
+        }
+        index = hash_table_get_hash(ht,i,ht->size);
+        item = ht->items[index];
+        i++;
+    }
+    return NULL;
 
 }
