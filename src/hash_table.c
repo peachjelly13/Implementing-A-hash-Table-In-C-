@@ -2,6 +2,8 @@
 #include <string.h>
 #include "hash_table.h"
 
+static hash_table_item* hash_table_deleted_item = {NULL,NULL};
+
 //creating a function hash_table_newItem and this function returns a pointer to hash_table_item
 static hash_table_item* hash_table_newItem(const char* key_, const char* value_){
     hash_table_item* element = malloc(sizeof(hash_table_item));
@@ -66,8 +68,15 @@ void hash_table_insert(hash_table *ht,const char * key,const char* value){
     hash_table_item* item = hash_table_newItem(key,value);
     int index = hash_table_hash(item->key,0,ht->size);
     hash_table_item* current_item = ht->items[index];
-    int i;
-    while(current_item!=NULL){
+    int i = 1;
+    while(current_item!=NULL && current_item!=&hash_table_deleted_item){
+        if(current_item!=&hash_table_deleted_item){
+            if (strcmp(current_item->key, key) == 0) {
+                ht_del_item(current_item);
+                ht->items[index] = item;
+                return;
+            }
+        }
         index = hash_table_get_hash(item->key,i,ht->size);
         current_item = ht->items[index];
         i++;
@@ -83,16 +92,35 @@ void hash_table_insert(hash_table *ht,const char * key,const char* value){
 char hash_table_search(hash_table *ht, const char* key){
     int index = hash_table_get_hash(key,0,ht->size);
     hash_table_item* item = ht->items[index];
-    int i;
+    int i = 1;
     while(item!=NULL){
+        if(item!=&hash_table_deleted_item){
+
         if(strcmp(item->key,key)){
             return item->value;
-        }
+        }}
         index = hash_table_get_hash(ht,i,ht->size);
         item = ht->items[index];
         i++;
     }
     return NULL;
-    
-
 }
+
+void hash_table_delete_element(hash_table* ht, const char* key){
+    int index = hash_table_get_hash(key,0,ht->size);
+    hash_table_item* item = ht->items[index];
+    int i = 1;
+    while(item!=NULL){
+        if(item!=&hash_table_deleted_item){
+            if(strcmp(item->key,key)==0){
+                hash_table_delete_item(item);
+                ht->items[index] = &hash_table_deleted_item;
+            }
+        }
+        index = hash_table_hash(ht,i,ht->size);
+        item = ht->items[index];
+        i++;
+    }
+    ht->count--;
+}
+
