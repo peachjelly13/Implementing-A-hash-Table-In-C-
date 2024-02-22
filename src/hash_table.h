@@ -15,5 +15,8 @@ typedef struct{
     hash_table_item** items; //represents an array of pointers
 }hash_table;
 
+//this is what all our hash function can implement and it will implement the following API
 
-
+void hash_table_insert(hash_table* ht, const char* key, const char* value);
+void hash_table_delete_element(hash_table* ht,const char* key);
+char hash_table_search(hash_table* ht, const char* key);

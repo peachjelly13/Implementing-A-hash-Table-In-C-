@@ -60,3 +60,19 @@ static int hash_table_get_hash(const char* string_,const int modulus_value , con
     const int hash_b = hash_table_hash(string_,191,modulus_value);
     return (hash_a+(no_of_attempts*(hash_b+1)))%modulus_value;
 }
+
+void hash_table_insert(hash_table *ht,const char * key,const char* value){
+    hash_table_item* item = hash_table_newItem(key,value);
+    int index = hash_table_hash(item->key,0,ht->size);
+    hash_table_item* current_item = ht->items[index];
+    int i;
+    while(current_item!=NULL){
+        index = hash_table_get_hash(item->key,i,ht->size);
+        current_item = ht->items[index];
+        i++;
+    }
+    ht->items[index]= item;
+    ht->count++;
+
+
+}
